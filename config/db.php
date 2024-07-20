@@ -1,6 +1,4 @@
 <?php
-// config/db.php
-
 define('DB_HOST', '5mh.h.filess.io'); 
 define('DB_PORT', '3305'); 
 define('DB_NAME', 'Project4806_gunnoisehe'); 

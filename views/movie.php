@@ -29,6 +29,38 @@
                     <li><strong>Poster:</strong> <img src="<?php echo $movie['Poster']; ?>" alt="Poster"></li>
                 </ul>
             </div>
+            <div class="card">
+                <h3>Add a Review</h3>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <form method="POST" action="index.php?action=addReview">
+                        <input type="hidden" name="movie_id" value="<?php echo $movie['imdbID']; ?>">
+                        <textarea name="review_text" placeholder="Enter your review" required></textarea>
+                        <label for="stars">Stars:</label>
+                        <select name="stars" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <button type="submit">Submit Review</button>
+                    </form>
+                <?php else: ?>
+                    <p>Please <a href="index.php?action=login&redirect=addReview&movie_id=<?php echo $movie['imdbID']; ?>">login</a> to add a review.</p>
+                <?php endif; ?>
+            </div>
+            <div class="card">
+                <h3>Reviews</h3>
+                <?php if ($reviews): ?>
+                    <ul>
+                        <?php foreach ($reviews as $review): ?>
+                            <li><?php echo htmlspecialchars($review['review']); ?> (<?php echo $review['stars']; ?> stars) <br><small>by <?php echo $review['name']; ?> on <?php echo $review['created_at']; ?></small></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p>No reviews yet.</p>
+                <?php endif; ?>
+            </div>
         <?php else: ?>
             <div class="alert">No movie found.</div>
         <?php endif; ?>
