@@ -25,7 +25,7 @@ class MovieController {
 
     public function addReview($user_id, $movie_id, $review_text, $stars) {
         $this->reviewModel->addReview($user_id, $movie_id, $review_text, $stars);
-        header("Location: index.php?search=$movie_id");
+        return true;
     }
 }
 ?>

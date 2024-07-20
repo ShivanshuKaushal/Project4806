@@ -1,3 +1,8 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +15,7 @@
     <div class="container">
         <h1>Movie Search Results</h1>
         <a href="index.php">Back to Search</a>
+
         <?php if ($movie && isset($movie['Title'])): ?>
             <div class="card">
                 <h2><?php echo $movie['Title']; ?></h2>
@@ -34,6 +40,7 @@
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <form method="POST" action="index.php?action=addReview">
                         <input type="hidden" name="movie_id" value="<?php echo $movie['imdbID']; ?>">
+                        <input type="hidden" name="movie_title" value="<?php echo $movie['Title']; ?>">
                         <textarea name="review_text" placeholder="Enter your review" required></textarea>
                         <label for="stars">Stars:</label>
                         <select name="stars" required>
@@ -45,8 +52,13 @@
                         </select>
                         <button type="submit">Submit Review</button>
                     </form>
+                    <form method="POST" action="index.php?action=generateAIReview">
+                          <input type="hidden" name="movie_id" value="<?php echo $movie['imdbID']; ?>">
+                        <input type="hidden" name="movie_title" value="<?php echo $movie['Title']; ?>">
+                        <button type="submit">Let AI Generate Review</button>
+                    </form>
                 <?php else: ?>
-                    <p>Please <a href="index.php?action=login&redirect=addReview&movie_id=<?php echo $movie['imdbID']; ?>">login</a> to add a review.</p>
+                    <p>Please <a href="index.php?action=login&redirect=<?php echo urlencode("index.php?search=" . urlencode($movie['Title'])); ?>">login</a> to add a review.</p>
                 <?php endif; ?>
             </div>
             <div class="card">
