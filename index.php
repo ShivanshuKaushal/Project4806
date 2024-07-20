@@ -1,6 +1,6 @@
 <?php
 require_once 'controllers/MovieController.php';
-
+require_once 'config/db.php';
 $controller = new MovieController();
 
 if (isset($_GET['search'])) {
