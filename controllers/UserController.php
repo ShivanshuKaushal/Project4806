@@ -39,7 +39,7 @@ class UserController {
         session_destroy();
         header('Location: index.php');
     }
-    public function generateAIReview($movieTitle, $movie_id) {
+    public function generateAIReview($movieTitle) {
         $url = "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=" . $_ENV['GOOGLE_API'];
 
         $data = array(
@@ -74,31 +74,12 @@ class UserController {
 
         $responseData = json_decode($response, true);
         if (isset($responseData['candidates'][0]['content']['parts'][0]['text'])) {
-            $reviewText = $responseData['candidates'][0]['content']['parts'][0]['text'];
-            $stars = 4; 
-            
-            $this->saveReview($_SESSION['user_id'], $movieTitle,$movie_id, $reviewText, $stars);
-            return true;
+            return $responseData['candidates'][0]['content']['parts'][0]['text'];
         } else {
-           
             return false;
         }
     }
 
-    private function saveReview($userId, $movieTitle,$movie_id, $reviewText, $stars) {
-        global $pdo;
-
-
-        $stmt = $pdo->prepare("INSERT INTO reviews (user_id, movie_id, review, stars, created_at) VALUES (:user_id, :movie_id, :review, :stars, NOW())");
-        $stmt->bindParam(':user_id', $userId);
-        $stmt->bindParam(':movie_id', $movie_id);
-        $stmt->bindParam(':review', $reviewText);
-        $stmt->bindParam(':stars', $stars);
-        $stmt->execute();
-    }
-
-   
-    
      
     }
 ?>

@@ -42,22 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
             }
             elseif ($action === 'generateAIReview') {
-                
                 $movieTitle = $_POST['movie_title'];
-                $movie_id = $_POST['movie_id'];
-            
-                if ($userController->generateAIReview($movieTitle,$movie_id)) {
-                    header('Location: index.php?search=' . urlencode($movieTitle));
-                    exit();
-                } else {
+                $aiReview = $userController->generateAIReview($movieTitle);
+                if ($aiReview === false) {
                     echo 'AI review generation failed.';
+                }else{
+                    echo 'AI review: ' . $aiReview;
                 }
             }
-        else {
-            header('Location: index.php?action=login');
-            exit(); 
-        }
-    
 } else {
     if ($action === 'logout') {
         $userController->logout();

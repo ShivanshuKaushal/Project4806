@@ -52,11 +52,13 @@ if (session_status() == PHP_SESSION_NONE) {
                         </select>
                         <button type="submit">Submit Review</button>
                     </form>
-                    <form method="POST" action="index.php?action=generateAIReview">
-                          <input type="hidden" name="movie_id" value="<?php echo $movie['imdbID']; ?>">
-                        <input type="hidden" name="movie_title" value="<?php echo $movie['Title']; ?>">
-                        <button type="submit">Let AI Generate Review</button>
-                    </form>
+
+    <form method="POST" action="index.php?action=generateAIReview">
+        <input type="hidden" name="movie_id" value="<?php echo $movie['imdbID']; ?>">
+        <input type="hidden" name="movie_title" value="<?php echo $movie['Title']; ?>">
+        <button type="submit">Let AI Review</button>
+    </form>
+    
                 <?php else: ?>
                     <p>Please <a href="index.php?action=login&redirect=<?php echo urlencode("index.php?search=" . urlencode($movie['Title'])); ?>">login</a> to add a review.</p>
                 <?php endif; ?>
